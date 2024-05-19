@@ -6,9 +6,9 @@ with open('README.md', 'r', encoding='utf-8') as fh:
 
 setup(
     name='sharepoint_utils',
-    version='1.1',
+    version='2.0',
     author='Omkar Sutar',
-    description='Utility functions for working with SharePoint files',
+    description='Utility functions for working with SharePoint',
     long_description=long_description,
     long_description_content_type='text/markdown',  # This tells setuptools that the long description is in Markdown format
     packages=find_packages(),
