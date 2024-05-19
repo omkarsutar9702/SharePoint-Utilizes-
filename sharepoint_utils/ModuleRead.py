@@ -57,66 +57,50 @@ def combine_files_into_dataframe(ctx, folder_url, sheet_name = 0):
 
 #########################################################################################
 
-def get_folder_url(ctx, document_library_relative_url: str):
+def Read_file_from_different_library(ctx, file_url):
     """
-    Function to return a list of URLs of folders present in a given path in SharePoint.
+    Reads a file from custom library in SharePoint and returns its content as a Pandas DataFrame.
 
-    Parameters:
-        - ctx: SharePoint context object.
-        - document_library_relative_url (str): Relative URL of the document library.
+    Args:
+        ctx: SharePoint context (e.g., client context)
+        file_url: URL of the file on SharePoint
 
     Returns:
-        - List[str]: List of URLs of folders present in the given path.
+        pd.DataFrame: DataFrame containing the file content
     """
-    # Getting the root folder of the document library
-    root_folder = ctx.web.get_folder_by_server_relative_path(document_library_relative_url)
-    ctx.load(root_folder, ["Folders"])
-    ctx.execute_query()
+    # Create a MemoryStream to hold the file content
+    memory_stream = BytesIO()
 
-    # Extracting the paths of Level 1 folders within the root folder
-    folder_urls = [f'{document_library_relative_url}/{folder.name}' for folder in root_folder.folders]
-    
-    return folder_urls
+    try:
+        # Download the file from SharePoint and write it to the MemoryStream
+        ctx.web.get_file_by_server_relative_path(file_url).download(memory_stream).execute_query()
+    except Exception as e:
+        print(f"Error downloading the file: {e}")
+        return None
 
-# Example usage:
-# Assuming you have ctx already defined
-# ctx = get_sharepoint_context()  # Get SharePoint context
+    try:
+        # Assuming 'file_content' contains your CSV or Excel data
+        file_content = memory_stream.getvalue()
+        
+        if file_url.lower().endswith(".csv"):
+            df = pd.read_csv(BytesIO(file_content))
+        else:
+            df = pd.read_excel(BytesIO(file_content))
 
+        return df
+    except pd.errors.ParserError as e:
+        print(f"Error parsing the file content: {e}")
+        return None
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return None
+    finally:
+        # Close the MemoryStream (optional, but recommended)
+        memory_stream.close()
+        
 #########################################################################################
 
-def get_file_path(ctx, subfolder_urls_files: str):
-    """
-    Function to return a list of paths of files present in a given subfolder in SharePoint.
-
-    Parameters:
-        - ctx: SharePoint context object.
-        - subfolder_urls_files (str): Relative URL of the subfolder containing files.
-
-    Returns:
-        - List[str]: List of paths of files present in the given subfolder.
-    """
-    # Get the root folder of the Level 2 folder
-    root_folder_level2 = ctx.web.get_folder_by_server_relative_path(subfolder_urls_files)
-    ctx.load(root_folder_level2, ["Files"])
-    ctx.execute_query()
-
-    # Initialize a list to store file paths
-    file_paths = []
-
-    # Iterate over files within the Level 2 folder
-    for file in root_folder_level2.files:
-        # Append the path of each file to the list
-        file_paths.append(f'{subfolder_urls_files}/{file.name}')
-
-    return file_paths
-
-# Example usage:
-# Assuming you have ctx already defined
-# ctx = get_sharepoint_context()  # Get SharePoint context
-
-#########################################################################################
-
-def read_file_to_dataframe(ctx, file_url, sheet_name=0):
+def read_file_from_default_library(ctx, file_url, sheet_name=0):
     """
     Function to read a file from SharePoint and return its content as a pandas DataFrame.
 
