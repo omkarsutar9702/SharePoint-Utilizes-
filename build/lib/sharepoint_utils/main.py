@@ -36,7 +36,7 @@ def connect_to_sharepoint(username, password, site_address):
 
 #########################################################################################
 
-def upload_dataframe_to_sharepoint(ctx, folder_path, dataframe, file_name):
+def upload_dataframe_as_csv(ctx, folder_path, dataframe, file_name):
     """
     This function uploads a pandas DataFrame to a SharePoint folder as a CSV file.
 

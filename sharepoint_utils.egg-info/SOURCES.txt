@@ -1,5 +1,6 @@
 LICENSE.txt
 setup.py
+sharepoint_utils/ModuleGet.py
 sharepoint_utils/ModuleRead.py
 sharepoint_utils/__init__.py
 sharepoint_utils/main.py
