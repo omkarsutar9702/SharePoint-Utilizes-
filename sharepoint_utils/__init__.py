@@ -3,7 +3,7 @@ from .ModuleRead import combine_files_into_dataframe
 
 from .ModuleRead import read_file_from_default_library
 
-from .ModuleRead import Read_file_from_different_library
+from .ModuleRead import read_file_from_different_library
 
 # Importing functions from the ModuleGet module
 from .ModuleGet import get_folder_url

@@ -1,13 +1,5 @@
 #########################################################################################
 
-# Import necessary modules for authentication and working with SharePoint files
-from office365.sharepoint.files.file import File
-from io import BytesIO
-import pandas as pd
-import io
-
-#########################################################################################
-
 def get_folder_url(ctx, document_library_relative_url: str):
     """
     Function to return a list of URLs of folders present in a given path in SharePoint.

@@ -57,7 +57,7 @@ def combine_files_into_dataframe(ctx, folder_url, sheet_name = 0):
 
 #########################################################################################
 
-def Read_file_from_different_library(ctx, file_url):
+def read_file_from_different_library(ctx, file_url):
     """
     Reads a file from custom library in SharePoint and returns its content as a Pandas DataFrame.
 
