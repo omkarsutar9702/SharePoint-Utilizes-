@@ -57,7 +57,7 @@ def combine_files_into_dataframe(ctx, folder_url, sheet_name = 0):
 
 #########################################################################################
 
-def get_folder_urls(ctx, document_library_relative_url: str):
+def get_folder_url(ctx, document_library_relative_url: str):
     """
     Function to return a list of URLs of folders present in a given path in SharePoint.
 
@@ -84,7 +84,7 @@ def get_folder_urls(ctx, document_library_relative_url: str):
 
 #########################################################################################
 
-def get_file_paths(ctx, subfolder_urls_files: str):
+def get_file_path(ctx, subfolder_urls_files: str):
     """
     Function to return a list of paths of files present in a given subfolder in SharePoint.
 
@@ -116,7 +116,7 @@ def get_file_paths(ctx, subfolder_urls_files: str):
 
 #########################################################################################
 
-def read_file_from_sharepoint(ctx, file_url, sheet_name=0):
+def read_file_to_dataframe(ctx, file_url, sheet_name=0):
     """
     Function to read a file from SharePoint and return its content as a pandas DataFrame.
 
